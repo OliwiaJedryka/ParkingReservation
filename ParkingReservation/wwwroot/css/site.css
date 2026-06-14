@@ -1,0 +1,134 @@
+/* Definicja pastelowej palety różu */
+:root {
+    --main-bg: #fffcfc;            /* Bardzo jasne, niemal białe tło z nutą różu */
+    --card-bg: #ffffff;            /* Czysta biel dla kafelków */
+    --rose-primary: #f3c6c6;       /* Główny, delikatny pudrowy róż */
+    --rose-dark: #dca7a7;          /* Ciemniejszy róż do akcentów i tekstu */
+    --rose-light: #fae8e8;         /* Bardzo jasny róż pod tła */
+    --spot-free: #e2afde;          /* Pastelowy fiolet/róż indyjski dla wolnych miejsc */
+    --spot-free-bg: #fdf2fd;       /* Tło wolnego miejsca */
+    --spot-occupied: #e5989b;      /* Ciepły, pastelowy różowo-czerwony dla zajętych */
+    --spot-occupied-bg: #ffeef0;   /* Tło zajętego miejsca */
+    --text-dark: #4a3f3f;          /* Ciemny brąz/szarość zamiast czystej czerni */
+}
+
+body {
+    background-color: var(--main-bg);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-dark);
+}
+
+/* Upiększenie paska nawigacyjnego */
+.navbar {
+    background: var(--card-bg) !important;
+    box-shadow: 0 2px 12px rgba(243, 198, 198, 0.2);
+    border-bottom: 2px solid var(--rose-light);
+}
+.navbar-brand {
+    font-weight: 700;
+    color: var(--rose-dark) !important;
+    letter-spacing: 0.5px;
+}
+.nav-link {
+    color: var(--text-dark) !important;
+    font-weight: 500;
+}
+.nav-link:hover {
+    color: var(--rose-dark) !important;
+}
+
+/* Wyszukiwarka terminów */
+.search-card {
+    border-radius: 16px;
+    border: 1px solid var(--rose-primary);
+    background: var(--card-bg);
+    box-shadow: 0 4px 20px rgba(243, 198, 198, 0.15);
+}
+.form-control {
+    border: 1px solid var(--rose-primary);
+    border-radius: 8px;
+}
+.form-control:focus {
+    border-color: var(--rose-dark);
+    box-shadow: 0 0 0 0.2rem rgba(243, 198, 198, 0.5);
+}
+
+/* Kafelki miejsc parkingowych */
+.parking-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border-radius: 16px !important;
+    overflow: hidden;
+    background: var(--card-bg);
+    border: 2px solid transparent !important;
+}
+.parking-card:hover {
+    transform: translateY(-6px);
+}
+
+/* Klasy dla statusów miejsc */
+.border-spot-free {
+    border-color: var(--spot-free) !important;
+    box-shadow: 0 4px 10px rgba(226, 175, 222, 0.1);
+}
+.border-spot-free:hover {
+    box-shadow: 0 10px 20px rgba(226, 175, 222, 0.25) !important;
+}
+.bg-spot-free {
+    background-color: var(--spot-free) !important;
+}
+.text-spot-free {
+    color: var(--spot-free) !important;
+}
+.bg-subtle-free {
+    background-color: var(--spot-free-bg) !important;
+}
+
+.border-spot-occupied {
+    border-color: var(--spot-occupied) !important;
+    box-shadow: 0 4px 10px rgba(229, 152, 155, 0.1);
+}
+.border-spot-occupied:hover {
+    box-shadow: 0 10px 20px rgba(229, 152, 155, 0.25) !important;
+}
+.bg-spot-occupied {
+    background-color: var(--spot-occupied) !important;
+}
+.text-spot-occupied {
+    color: var(--spot-occupied) !important;
+}
+.bg-subtle-occupied {
+    background-color: var(--spot-occupied-bg) !important;
+}
+
+/* Przyciski w estetyce różu */
+.btn-rose {
+    background-color: var(--rose-primary);
+    color: var(--text-dark);
+    border: none;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: background 0.2s;
+}
+.btn-rose:hover {
+    background-color: var(--rose-dark);
+    color: white;
+}
+
+.btn-spot-action {
+    background-color: var(--spot-free);
+    color: white;
+    border: none;
+    font-weight: 600;
+    border-radius: 10px;
+}
+.btn-spot-action:hover {
+    background-color: #c98cb7;
+    color: white;
+}
+
+/* Karty logowania i panele */
+.card-login {
+    border-radius: 16px;
+    border: 1px solid var(--rose-light);
+    box-shadow: 0 8px 30px rgba(243, 198, 198, 0.15);
+}

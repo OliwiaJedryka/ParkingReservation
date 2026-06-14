@@ -1,0 +1,24 @@
+# --- .NET / C# ---
+bin/
+obj/
+*.suo
+*.user
+*.sln.docstates
+
+# --- Baza danych SQLite ---
+# Ignorujemy plik bazy oraz jej pliki tymczasowe typu WAL i SHM
+parking.db
+parking.db-shm
+parking.db-wal
+
+# --- Visual Studio Code ---
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# --- Systemowe ---
+.DS_Store
+Thumbs.db

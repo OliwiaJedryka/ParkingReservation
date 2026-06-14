@@ -1,0 +1,54 @@
+﻿@page
+@model ParkingReservation.Pages.ReservationsModel
+@{
+    ViewData["Title"] = "Moje Rezerwacje";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Twoje Aktywne Rezerwacje</h2>
+
+    @if (!Model.UserReservations.Any())
+    {
+        <div class="alert alert-info">
+            Nie masz obecnie żadnych aktywnych rezerwacji. <a asp-page="/Index">Przejdź do strony głównej</a>, aby zarezerwować miejsce.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-hover align-middle mb-0 bg-white">
+                <thead class="table-light">
+                    <tr>
+                        <th>Numer Miejsca</th>
+                        <th>Czas Rozpoczęcia</th>
+                        <th>Czas Zakończenia</th>
+                        <th>Status</th>
+                        <th>Akcja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var res in Model.UserReservations)
+                    {
+                        <tr>
+                            <td>
+                                <span class="badge bg-success p-2">Miejsce @res.ParkingSpot?.SpotNumber</span>
+                            </td>
+                            <td>@res.StartTime.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>@res.EndTime.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>
+                                <span class="badge bg-primary">@res.Status</span>
+                            </td>
+                            <td>
+                                <form method="post" asp-page-handler="Cancel" asp-route-reservationId="@res.Id">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Czy na pewno chcesz anulować tę rezerwację?')">
+                                        Anuluj rezerwację
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

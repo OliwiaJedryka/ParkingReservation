@@ -1,0 +1,106 @@
+﻿@page
+@model ParkingReservation.Pages.AdminPanelModel
+@{
+    ViewData["Title"] = "Panel Administratora";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-danger"><i class="bi bi-shield-lock"></i> Panel Administracyjny</h1>
+    </div>
+
+    <div class="card mb-5 border-danger">
+        <div class="card-header bg-danger text-white">Dodaj nowe miejsce parkingowe</div>
+        <div class="card-body">
+            <form method="post" asp-page-handler="AddSpot" class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <input type="text" name="spotNumber" class="form-control" placeholder="np. C-01" required>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-danger">Dodaj miejsce</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <h3 class="mb-3">Wszystkie Miejsca Parkingowe</h3>
+    <div class="row row-cols-2 row-cols-md-5 g-3 mb-5">
+        @foreach (var spot in Model.AllSpots)
+        {
+            <div class="col">
+                <div class="card text-center @(spot.IsOccupied ? "bg-light border-danger text-danger" : "bg-light border-success text-success")">
+                    <div class="card-body py-2">
+                        <strong>@spot.SpotNumber</strong> - @(spot.IsOccupied ? "Zajęte" : "Wolne")
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <h3 class="mb-3">Wszystkie Rezerwacje w Systemie</h3>
+    <div class="table-responsive shadow-sm rounded mb-5">
+        <table class="table table-striped align-middle bg-white">
+            <thead class="table-dark">
+                <tr>
+                    <th>Użytkownik</th>
+                    <th>Rola</th>
+                    <th>Miejsce</th>
+                    <th>Od</th>
+                    <th>Status</th>
+                    <th>Akcja Admina</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var res in Model.AllReservations)
+                {
+                    <tr>
+                        <td>@res.User?.FirstName @res.User?.LastName (@res.User?.Email)</td>
+                        <td><span class="badge bg-secondary">@res.User?.Role</span></td>
+                        <td><span class="badge bg-info text-dark">Miejsce @res.ParkingSpot?.SpotNumber</span></td>
+                        <td>@res.StartTime.ToString("dd.MM HH:mm") - @res.EndTime.ToString("dd.MM HH:mm")</td>
+                        <td>
+                            <span class="badge @(res.Status == "Active" ? "bg-success" : "bg-muted text-dark border")">@res.Status</span>
+                        </td>
+                        <td>
+                            @if (res.Status == "Active")
+                            {
+                                <form method="post" asp-page-handler="CancelReservation" asp-route-id="@res.Id">
+                                    <button type="submit" class="btn btn-sm btn-danger">Anuluj odgórnie</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Brak akcji</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="mb-3">Zarejestrowani Użytkownicy</h3>
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover bg-white">
+            <thead class="table-secondary">
+                <tr>
+                    <th>ID</th>
+                    <th>Imię i Nazwisko</th>
+                    <th>Email</th>
+                    <th>Rola w systemie</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.AllUsers)
+                {
+                    <tr>
+                        <td>@user.Id</td>
+                        <td>@user.FirstName @user.LastName</td>
+                        <td>@user.Email</td>
+                        <td><strong>@user.Role</strong></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+﻿@page
+@model ParkingReservation.Pages.LoginModel
+@{
+    ViewData["Title"] = "Logowanie";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-4">
+        <div class="card card-login shadow-sm bg-white">
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-4 fw-bold" style="color: var(--rose-dark);">
+                    <i class="bi bi-person-heart"></i> Logowanie
+                </h2>
+
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger border-0 shadow-sm">@Model.ErrorMessage</div>
+                }
+
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Adres E-mail</label>
+                        <input type="email" asp-for="Email" class="form-control" placeholder="student@uczelnia.edu.pl" required />
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Hasło</label>
+                        <input type="password" asp-for="Password" class="form-control" placeholder="••••••••" required />
+                    </div>
+                    <button type="submit" class="btn btn-rose w-100 py-2 shadow-sm">Zaloguj się</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
