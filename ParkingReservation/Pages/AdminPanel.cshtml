@@ -4,103 +4,177 @@
     ViewData["Title"] = "Panel Administratora";
 }
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="text-danger"><i class="bi bi-shield-lock"></i> Panel Administracyjny</h1>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1 class="fw-bold" style="color: var(--rose-dark);"><i class="bi bi-shield-lock-fill"></i> Panel Zarządzania Systemem</h1>
     </div>
 
-    <div class="card mb-5 border-danger">
-        <div class="card-header bg-danger text-white">Dodaj nowe miejsce parkingowe</div>
-        <div class="card-body">
-            <form method="post" asp-page-handler="AddSpot" class="row g-3 align-items-center">
-                <div class="col-auto">
-                    <input type="text" name="spotNumber" class="form-control" placeholder="np. C-01" required>
-                </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-danger">Dodaj miejsce</button>
-                </div>
-            </form>
+    <div class="card search-card p-4 mb-5">
+        <h4 class="fw-bold mb-3" style="color: var(--text-dark);"><i class="bi bi-geo-alt"></i> Zarządzanie Miejscami Parkingowymi</h4>
+        
+        <form method="post" asp-page-handler="AddSpot" class="row g-3 align-items-center mb-4">
+            <div class="col-auto">
+                <input type="text" name="spotNumber" class="form-control" placeholder="Nowy numer, np. C-02" required>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-rose py-2 px-4 shadow-sm"><i class="bi bi-plus-lg"></i> Dodaj miejsce</button>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table align-middle bg-white border-0">
+                <thead style="background-color: var(--rose-light);">
+                    <tr>
+                        <th>Numer miejsca</th>
+                        <th>Stan obecny</th>
+                        <th>Zmień numer (Edycja)</th>
+                        <th class="text-end">Usuń</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var spot in Model.AllSpots)
+                    {
+                        <tr>
+                            <td><span class="badge rounded-pill px-3 py-2 @(spot.IsOccupied ? "bg-subtle-occupied text-spot-occupied" : "bg-subtle-free text-spot-free")">Miejsce @spot.SpotNumber</span></td>
+                            <td>@(spot.IsOccupied ? "Zablokowane rezerwacją" : "Wolne")</td>
+                            <td>
+                                <form method="post" asp-page-handler="EditSpot" class="d-flex gap-2">
+                                    <input type="hidden" name="spotId" value="@spot.Id" />
+                                    <input type="text" name="newSpotNumber" class="form-control form-control-sm" style="max-width: 120px;" placeholder="Zmień..." required />
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary"><i class="bi bi-check-lg"></i></button>
+                                </form>
+                            </td>
+                            <td class="text-end">
+                                <form method="post" asp-page-handler="DeleteSpot">
+                                    <input type="hidden" name="spotId" value="@spot.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Czy na pewno chcesz bezpowrotnie usunąć to miejsce i anulować rezerwacje na nie?')">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <h3 class="mb-3">Wszystkie Miejsca Parkingowe</h3>
-    <div class="row row-cols-2 row-cols-md-5 g-3 mb-5">
-        @foreach (var spot in Model.AllSpots)
-        {
-            <div class="col">
-                <div class="card text-center @(spot.IsOccupied ? "bg-light border-danger text-danger" : "bg-light border-success text-success")">
-                    <div class="card-body py-2">
-                        <strong>@spot.SpotNumber</strong> - @(spot.IsOccupied ? "Zajęte" : "Wolne")
-                    </div>
-                </div>
+
+    <div class="card search-card p-4 mb-5">
+        <h4 class="fw-bold mb-3" style="color: var(--text-dark);"><i class="bi bi-people"></i> Zarządzanie Użytkownikami</h4>
+        
+        <h5 class="text-muted mb-3" style="font-size: 1rem;">Dodaj nowego użytkownika odgórnie:</h5>
+        <form method="post" asp-page-handler="CreateUser" class="row g-3 mb-4">
+            <div class="col-md-2">
+                <input type="text" name="firstName" class="form-control" placeholder="Imię" required />
             </div>
-        }
-    </div>
+            <div class="col-md-2">
+                <input type="text" name="lastName" class="form-control" placeholder="Nazwisko" required />
+            </div>
+            <div class="col-md-3">
+                <input type="email" name="email" class="form-control" placeholder="Email (Unikalny)" required />
+            </div>
+            <div class="col-md-2">
+                <input type="password" name="password" class="form-control" placeholder="Hasło" required />
+            </div>
+            <div class="col-md-2">
+                <select name="role" class="form-control">
+                    <option value="Student">Student</option>
+                    <option value="Employee">Employee</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-rose w-100 p-2"><i class="bi bi-person-plus"></i></button>
+            </div>
+        </form>
 
-    <h3 class="mb-3">Wszystkie Rezerwacje w Systemie</h3>
-    <div class="table-responsive shadow-sm rounded mb-5">
-        <table class="table table-striped align-middle bg-white">
-            <thead class="table-dark">
-                <tr>
-                    <th>Użytkownik</th>
-                    <th>Rola</th>
-                    <th>Miejsce</th>
-                    <th>Od</th>
-                    <th>Status</th>
-                    <th>Akcja Admina</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var res in Model.AllReservations)
-                {
+        <div class="table-responsive">
+            <table class="table align-middle bg-white">
+                <thead style="background-color: var(--rose-light);">
                     <tr>
-                        <td>@res.User?.FirstName @res.User?.LastName (@res.User?.Email)</td>
-                        <td><span class="badge bg-secondary">@res.User?.Role</span></td>
-                        <td><span class="badge bg-info text-dark">Miejsce @res.ParkingSpot?.SpotNumber</span></td>
-                        <td>@res.StartTime.ToString("dd.MM HH:mm") - @res.EndTime.ToString("dd.MM HH:mm")</td>
-                        <td>
-                            <span class="badge @(res.Status == "Active" ? "bg-success" : "bg-muted text-dark border")">@res.Status</span>
-                        </td>
-                        <td>
-                            @if (res.Status == "Active")
-                            {
-                                <form method="post" asp-page-handler="CancelReservation" asp-route-id="@res.Id">
-                                    <button type="submit" class="btn btn-sm btn-danger">Anuluj odgórnie</button>
+                        <th>Użytkownik</th>
+                        <th>Email</th>
+                        <th>Rola w Systemie</th>
+                        <th>Zmień uprawnienia</th>
+                        <th class="text-end">Usuń konto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.AllUsers)
+                    {
+                        <tr>
+                            <td><strong>@user.FirstName @user.LastName</strong></td>
+                            <td><span class="text-muted">@user.Email</span></td>
+                            <td>
+                                <span class="badge @(user.Role == "Admin" ? "bg-dark text-white" : "bg-light text-dark border")">@user.Role</span>
+                            </td>
+                            <td>
+                                <form method="post" asp-page-handler="ChangeRole" class="d-flex gap-2">
+                                    <input type="hidden" name="userId" value="@user.Id" />
+                                    <select name="newRole" class="form-select form-select-sm" style="max-width: 130px;" onchange="this.form.submit()">
+                                        <option value="">-- wybierz --</option>
+                                        <option value="Student">Student</option>
+                                        <option value="Employee">Employee</option>
+                                        <option value="Admin">Admin</option>
+                                    </select>
                                 </form>
-                            }
-                            else
-                            {
-                                <span class="text-muted">Brak akcji</span>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                            </td>
+                            <td class="text-end">
+                                <form method="post" asp-page-handler="DeleteUser">
+                                    <input type="hidden" name="userId" value="@user.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika i wyczyścić jego historię rezerwacji?')">
+                                        <i class="bi bi-person-x-fill"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <h3 class="mb-3">Zarejestrowani Użytkownicy</h3>
-    <div class="table-responsive shadow-sm rounded">
-        <table class="table table-hover bg-white">
-            <thead class="table-secondary">
-                <tr>
-                    <th>ID</th>
-                    <th>Imię i Nazwisko</th>
-                    <th>Email</th>
-                    <th>Rola w systemie</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model.AllUsers)
-                {
+
+    <div class="card search-card p-4">
+        <h4 class="fw-bold mb-3" style="color: var(--text-dark);"><i class="bi bi-calendar-range"></i> Wszystkie Rezerwacje</h4>
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-striped align-middle bg-white mb-0">
+                <thead class="table-dark">
                     <tr>
-                        <td>@user.Id</td>
-                        <td>@user.FirstName @user.LastName</td>
-                        <td>@user.Email</td>
-                        <td><strong>@user.Role</strong></td>
+                        <th>Kto</th>
+                        <th>Miejsce</th>
+                        <th>Przedział czasu</th>
+                        <th>Status</th>
+                        <th class="text-end">Akcja Odgórna</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var res in Model.AllReservations)
+                    {
+                        <tr>
+                            <td>@res.User?.FirstName @res.User?.LastName <br><small class="text-muted">@res.User?.Email (@res.User?.Role)</small></td>
+                            <td><span class="badge bg-info text-dark">Miejsce @res.ParkingSpot?.SpotNumber</span></td>
+                            <td><small>@res.StartTime.ToString("dd.MM HH:mm") - @res.EndTime.ToString("dd.MM HH:mm")</small></td>
+                            <td>
+                                <span class="badge @(res.Status == "Active" ? "bg-success" : "bg-light text-muted border")">@res.Status</span>
+                            </td>
+                            <td class="text-end">
+                                @if (res.Status == "Active")
+                                {
+                                    <form method="post" asp-page-handler="CancelReservation" asp-route-id="@res.Id">
+                                        <button type="submit" class="btn btn-sm btn-danger py-1 px-3">Anuluj</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <span class="text-muted fs-7">Zakończona</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

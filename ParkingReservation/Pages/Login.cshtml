@@ -8,6 +8,12 @@
     <div class="col-md-4">
         <div class="card card-login shadow-sm bg-white">
             <div class="card-body p-4">
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success border-0 shadow-sm text-center mb-3" style="background-color: var(--spot-free-bg); color: var(--text-dark);">
+                    <i class="bi bi-check-circle-fill" style="color: var(--spot-free);"></i> @TempData["SuccessMessage"]
+                    </div>
+                }
                 <h2 class="card-title text-center mb-4 fw-bold" style="color: var(--rose-dark);">
                     <i class="bi bi-person-heart"></i> Logowanie
                 </h2>
@@ -28,6 +34,11 @@
                     </div>
                     <button type="submit" class="btn btn-rose w-100 py-2 shadow-sm">Zaloguj się</button>
                 </form>
+
+                <div class="text-center mt-3">
+                    <span class="text-muted">Nie masz jeszcze konta?</span> 
+                    <a asp-page="/Register" style="color: var(--rose-dark); font-weight: 600; text-decoration: none;">Zarejestruj się</a>
+                </div>
             </div>
         </div>
     </div>

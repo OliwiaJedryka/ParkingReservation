@@ -39,22 +39,26 @@
     }
 </ul>
 
-<ul class="navbar-nav">
+<ul class="navbar-nav ms-auto d-flex align-items-center">
     @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
-        <li class="nav-item d-flex align-items-center">
-            <span class="nav-link text-dark me-2">Cześć, <strong>@User.Identity.Name</strong>!</span>
+        <li class="nav-item d-flex align-items-center me-3">
+            <span class="nav-link p-0 text-dark">
+                Cześć, <strong style="color: var(--rose-dark);">@User.Identity.Name</strong>!
+            </span>
         </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-page="/Login" asp-page-handler="Logout" method="post">
-                <button type="submit" class="btn btn-link nav-link text-dark" style="padding: 0; border: none; background: none;">Wyloguj</button>
+        <li class="nav-item d-flex align-items-center">
+            <form class="d-flex align-items-center" asp-page="/Login" asp-page-handler="Logout" method="post" style="margin: 0; padding: 0;">
+                <button type="submit" class="btn btn-link nav-link p-0 text-dark align-middle" style="border: none; background: none; line-height: inherit;">
+                    <i class="bi bi-box-arrow-left"></i> Wyloguj
+                </button>
             </form>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-page="/Login">Zaloguj się</a>
+            <a class="nav-link text-dark" asp-page="/Login"><i class="bi bi-box-arrow-in-right"></i> Zaloguj się</a>
         </li>
     }
 </ul>

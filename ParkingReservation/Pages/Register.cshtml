@@ -1,0 +1,67 @@
+﻿@page
+@model ParkingReservation.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Rejestracja";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card card-login shadow-sm bg-white">
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-4 fw-bold" style="color: var(--rose-dark);">
+                    <i class="bi bi-person-plus-fill"></i> Załóż konto
+                </h2>
+
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger border-0 shadow-sm">
+                        <i class="bi bi-exclamation-triangle-fill"></i> @Model.ErrorMessage
+                    </div>
+                }
+
+                <form method="post">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Imię</label>
+                            <input type="text" asp-for="FirstName" class="form-control" placeholder="Jan" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Nazwisko</label>
+                            <input type="text" asp-for="LastName" class="form-control" placeholder="Kowalski" required />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Adres E-mail</label>
+                        <input type="email" asp-for="Email" class="form-control" placeholder="nazwa@uczelnia.edu.pl" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Kim jesteś?</label>
+                        <select asp-for="Role" class="form-control">
+                            <option value="Student">Studentem</option>
+                            <option value="Employee">Pracownikiem uczelni</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Hasło</label>
+                        <input type="password" asp-for="Password" class="form-control" placeholder="••••••••" required />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Powtórz hasło</label>
+                        <input type="password" asp-for="ConfirmPassword" class="form-control" placeholder="••••••••" required />
+                    </div>
+
+                    <button type="submit" class="btn btn-rose w-100 py-2 shadow-sm mb-3">Zarejestruj się</button>
+                    
+                    <div class="text-center mt-2">
+                        <span class="text-muted">Masz już konto?</span> 
+                        <a asp-page="/Login" style="color: var(--rose-dark); font-weight: 600; text-decoration: none;">Zaloguj się</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

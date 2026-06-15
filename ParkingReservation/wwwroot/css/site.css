@@ -5,9 +5,9 @@
     --rose-primary: #f3c6c6;       /* Główny, delikatny pudrowy róż */
     --rose-dark: #dca7a7;          /* Ciemniejszy róż do akcentów i tekstu */
     --rose-light: #fae8e8;         /* Bardzo jasny róż pod tła */
-    --spot-free: #e2afde;          /* Pastelowy fiolet/róż indyjski dla wolnych miejsc */
-    --spot-free-bg: #fdf2fd;       /* Tło wolnego miejsca */
-    --spot-occupied: #e5989b;      /* Ciepły, pastelowy różowo-czerwony dla zajętych */
+    --spot-free: #55d4ae;          /* Pastelowy fiolet/róż indyjski dla wolnych miejsc */
+    --spot-free-bg: #edf7f5;       /* Tło wolnego miejsca */
+    --spot-occupied: #d68285;      /* Ciepły, pastelowy różowo-czerwony dla zajętych */
     --spot-occupied-bg: #ffeef0;   /* Tło zajętego miejsca */
     --text-dark: #4a3f3f;          /* Ciemny brąz/szarość zamiast czystej czerni */
 }
